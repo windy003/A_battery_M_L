@@ -51,6 +51,22 @@
             outline: none;
         }
         
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        
         button {
             background-color: #4CAF50;
             color: white;
@@ -169,14 +185,17 @@
             <ol>
                 <li>在手机上安装并运行电池服务器应用</li>
                 <li>确保手机和电脑连接到同一个WiFi网络</li>
-                <li>在下方输入手机的IP地址（可在手机WiFi设置中查看）</li>
+                <li>在下方选择要监控的手机设备</li>
                 <li>点击"获取电池信息"按钮</li>
             </ol>
         </div>
         
         <div class="input-group">
-            <label for="phoneIp">手机IP地址：</label>
-            <input type="text" id="phoneIp" placeholder="例如: 192.168.1.100" value="192.168.1.100">
+            <label for="phoneIp">选择手机设备：</label>
+            <select name="" id="phoneIp">
+                <option value="10.254.1.70">lg wing (10.254.1.70)</option>
+                <option value="10.254.1.242">小米12pro (10.254.1.242)</option>
+            </select>
         </div>
         
         <button onclick="getBatteryInfo()">获取电池信息</button>
@@ -197,18 +216,11 @@
         let isAutoRefreshing = false;
         
         async function getBatteryInfo() {
-            const phoneIp = document.getElementById('phoneIp').value.trim();
+            const phoneIp = document.getElementById('phoneIp').value;
             const resultDiv = document.getElementById('result');
             
             if (!phoneIp) {
-                resultDiv.innerHTML = '<div class="error">请输入手机IP地址</div>';
-                return;
-            }
-            
-            // 验证IP地址格式
-            const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
-            if (!ipRegex.test(phoneIp)) {
-                resultDiv.innerHTML = '<div class="error">请输入有效的IP地址格式</div>';
+                resultDiv.innerHTML = '<div class="error">请选择手机设备</div>';
                 return;
             }
             
@@ -238,7 +250,7 @@
             } catch (error) {
                 let errorMessage = '连接失败';
                 if (error.name === 'TypeError') {
-                    errorMessage = '无法连接到手机，请检查：<br>1. 手机应用是否正在运行<br>2. IP地址是否正确<br>3. 手机和电脑是否在同一网络';
+                    errorMessage = '无法连接到手机，请检查：<br>1. 手机应用是否正在运行<br>2. 选择的设备是否正确<br>3. 手机和电脑是否在同一网络';
                 } else {
                     errorMessage = `错误: ${error.message}`;
                 }
@@ -329,7 +341,7 @@
         
         // 添加键盘快捷键支持
         document.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' && event.target.id === 'phoneIp') {
+            if (event.key === 'Enter') {
                 getBatteryInfo();
             }
         });
