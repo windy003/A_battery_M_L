@@ -223,10 +223,11 @@
                 
                 const data = await response.json();
                 
-                if (data.success) {
+                // 检查数据是否包含必要的字段
+                if (data && typeof data.level !== 'undefined') {
                     displayBatteryInfo(data);
                 } else {
-                    resultDiv.innerHTML = `<div class="error">获取失败: ${data.error}</div>`;
+                    resultDiv.innerHTML = `<div class="error">获取的数据格式不正确</div>`;
                 }
                 
             } catch (error) {
@@ -242,21 +243,33 @@
         
         function displayBatteryInfo(data) {
             const resultDiv = document.getElementById('result');
-            const chargingClass = data.is_charging ? 'charging' : 'not-charging';
-            const chargingIcon = data.is_charging ? '🔌' : '🔋';
+            const chargingClass = data.isCharging ? 'charging' : 'not-charging';
+            const chargingIcon = data.isCharging ? '🔌' : '🔋';
             
             const html = `
                 <div class="battery-info">
                     <div class="battery-level">
-                        ${chargingIcon} 电量: ${data.battery_level}%
+                        ${chargingIcon} 电量: ${data.level}%
                     </div>
                     <div class="charging-status ${chargingClass}">
-                        状态: ${data.charging_status}
+                        状态: ${data.status}
                     </div>
                     <div class="battery-details">
                         <div class="detail-item">
                             <strong>充电状态:</strong><br>
-                            ${data.is_charging ? '正在充电' : '未充电'}
+                            ${data.isCharging ? '正在充电' : '未充电'}
+                        </div>
+                        <div class="detail-item">
+                            <strong>电源连接:</strong><br>
+                            ${data.isPowerConnected ? '已连接' : '未连接'}
+                        </div>
+                        <div class="detail-item">
+                            <strong>电源类型:</strong><br>
+                            ${data.powerSource}
+                        </div>
+                        <div class="detail-item">
+                            <strong>充电详情:</strong><br>
+                            ${data.chargingDetail}
                         </div>
                         <div class="detail-item">
                             <strong>电池温度:</strong><br>
@@ -267,8 +280,12 @@
                             ${data.voltage} mV
                         </div>
                         <div class="detail-item">
+                            <strong>电池容量比例:</strong><br>
+                            ${data.scale}%
+                        </div>
+                        <div class="detail-item">
                             <strong>更新时间:</strong><br>
-                            ${new Date(data.timestamp).toLocaleString()}
+                            ${new Date().toLocaleString()}
                         </div>
                     </div>
                 </div>

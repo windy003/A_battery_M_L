@@ -1,0 +1,10 @@
+public class BatteryService extends Service {
+    +10    private void createNotificationChannel() {
+    +10     private void registerBatteryReceiver() {
+    +10    public void onDestroy() {
+    +20        private Notification createNotification() {
+    +10      private void startHttpServer() {
+    +30       private String getDeviceIpAddress() {
+
+public class BatteryTileService extends TileService {
+    +10
