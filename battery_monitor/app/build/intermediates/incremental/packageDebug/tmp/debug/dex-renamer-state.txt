@@ -1,4 +1,4 @@
-#Fri Jun 06 13:31:05 CST 2025
+#Fri Jun 06 14:14:22 CST 2025
 base.0=D\:\\files\\web\\A_battery_M_L\\battery_monitor\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=D\:\\files\\web\\A_battery_M_L\\battery_monitor\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.2=D\:\\files\\web\\A_battery_M_L\\battery_monitor\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\14\\classes.dex

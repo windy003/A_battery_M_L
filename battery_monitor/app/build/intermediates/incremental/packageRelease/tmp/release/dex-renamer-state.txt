@@ -1,4 +1,4 @@
-#Fri Jun 06 13:33:45 CST 2025
+#Fri Jun 06 14:15:21 CST 2025
 base.0=D\:\\files\\web\\A_battery_M_L\\battery_monitor\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

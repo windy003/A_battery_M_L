@@ -51,9 +51,6 @@ public class BatteryHttpServer extends NanoHTTPD {
     
     private Response getBatteryInfoResponse() {
         try {
-            JSONObject response = new JSONObject();
-            
-            // 获取电池信息
             IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             Intent batteryStatus = context.registerReceiver(null, filter);
             
@@ -63,36 +60,54 @@ public class BatteryHttpServer extends NanoHTTPD {
                 int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
                 int temperature = batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
                 int voltage = batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
+                int plugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
                 
                 if (scale > 0) {
                     float batteryPct = level * 100.0f / scale;
+                    
                     boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
                                        status == BatteryManager.BATTERY_STATUS_FULL;
                     
-                    response.put("success", true);
-                    response.put("battery_level", Math.round(batteryPct * 10) / 10.0);
-                    response.put("is_charging", isCharging);
-                    response.put("charging_status", getChargingStatusText(status));
-                    response.put("temperature", temperature / 10.0);
-                    response.put("voltage", voltage);
-                    long currentTime = System.currentTimeMillis();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                    String formattedTime = sdf.format(new Date(currentTime));
-                    response.put("timestamp", currentTime);
-                    response.put("formatted_time", formattedTime);
-                } else {
-                    response.put("success", false);
-                    response.put("error", "无法获取电池信息");
+                    String chargingStatus = getChargingStatusText(status);
+                    String powerSource = getPowerSourceText(plugged);
+                    boolean isPowerConnected = plugged != 0;
+                    
+                    JSONObject batteryInfo = new JSONObject();
+                    batteryInfo.put("level", Math.round(batteryPct * 10) / 10.0);
+                    batteryInfo.put("scale", scale);
+                    batteryInfo.put("status", chargingStatus);
+                    batteryInfo.put("temperature", Math.round(temperature / 10.0 * 10) / 10.0);
+                    batteryInfo.put("voltage", voltage);
+                    batteryInfo.put("isCharging", isCharging);
+                    batteryInfo.put("isPowerConnected", isPowerConnected);
+                    batteryInfo.put("powerSource", powerSource);
+                    
+                    // 添加详细的充电状态说明
+                    if (batteryPct >= 100.0f && isPowerConnected) {
+                        batteryInfo.put("chargingDetail", 
+                            status == BatteryManager.BATTERY_STATUS_CHARGING ? "正在充电" : "维持电量");
+                    } else if (isPowerConnected) {
+                        batteryInfo.put("chargingDetail", 
+                            status == BatteryManager.BATTERY_STATUS_CHARGING ? "正在充电" : "已停止充电");
+                    } else {
+                        batteryInfo.put("chargingDetail", "未连接电源");
+                    }
+                    
+                    return newFixedLengthResponse(Response.Status.OK, "application/json", batteryInfo.toString());
                 }
-            } else {
-                response.put("success", false);
-                response.put("error", "无法获取电池状态");
             }
             
-            return newFixedLengthResponse(Response.Status.OK, "application/json", response.toString());
+            return createErrorResponse("无法获取电池信息");
             
         } catch (Exception e) {
-            return createErrorResponse(e.getMessage());
+            JSONObject error = new JSONObject();
+            try {
+                error.put("error", "获取电池信息时发生错误");
+                error.put("message", e.getMessage());
+            } catch (Exception jsonException) {
+                // 忽略JSON异常
+            }
+            return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "application/json", error.toString());
         }
     }
     
@@ -120,6 +135,21 @@ public class BatteryHttpServer extends NanoHTTPD {
             case BatteryManager.BATTERY_STATUS_UNKNOWN:
             default:
                 return "未知状态";
+        }
+    }
+    
+    private String getPowerSourceText(int plugged) {
+        switch (plugged) {
+            case BatteryManager.BATTERY_PLUGGED_AC:
+                return "交流电源";
+            case BatteryManager.BATTERY_PLUGGED_USB:
+                return "USB充电";
+            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
+                return "无线充电";
+            case 0:
+                return "未插入";
+            default:
+                return "未知电源";
         }
     }
 } 

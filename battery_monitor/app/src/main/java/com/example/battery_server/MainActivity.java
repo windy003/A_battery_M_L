@@ -107,31 +107,79 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = registerReceiver(null, filter);
                 
-                if (batteryStatus != null) {
-                    int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-                    int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-                    int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-                    int temperature = batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
-                    int voltage = batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
-                    
+        if (batteryStatus != null) {
+            int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+            int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            int temperature = batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1);
+            int voltage = batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
+            
+            // 获取电源插入状态
+            int plugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+            
             if (scale > 0) {
                 float batteryPct = level * 100.0f / scale;
                 
-                String chargingStatus = getChargingStatusText(status);
+                // 获取详细的充电和电源状态
+                String detailedStatus = getDetailedChargingStatus(status, plugged, batteryPct);
+                
                 String info = String.format(
-                    "电量: %.1f%%\n状态: %s\n温度: %.1f°C\n电压: %d mV",
+                    "电量: %.1f%%\n%s\n温度: %.1f°C\n电压: %d mV",
                     batteryPct, 
-                    chargingStatus,
+                    detailedStatus,
                     temperature / 10.0f,
                     voltage
                 );
                 
                 batteryInfoText.setText(info);
-                } else {
+            } else {
                 batteryInfoText.setText("无法获取电池信息");
-                }
+            }
         } else {
             batteryInfoText.setText("电池状态不可用");
+        }
+    }
+    
+    private String getDetailedChargingStatus(int status, int plugged, float batteryPct) {
+        // 首先判断电源是否插入
+        String powerSource = getPowerSourceText(plugged);
+        String chargingStatus = getChargingStatusText(status);
+        
+        // 特殊处理100%的情况
+        if (batteryPct >= 100.0f) {
+            if (plugged != 0) { // 电源已插入
+                return String.format("状态: %s\n电源: %s\n充电: %s", 
+                    chargingStatus, 
+                    powerSource,
+                    status == BatteryManager.BATTERY_STATUS_CHARGING ? "正在充电" : "维持电量");
+            } else {
+                return String.format("状态: %s\n电源: 未插入", chargingStatus);
+            }
+        } else {
+            // 电量未满的情况
+            if (plugged != 0) { // 电源已插入
+                return String.format("状态: %s\n电源: %s\n充电: %s", 
+                    chargingStatus, 
+                    powerSource,
+                    status == BatteryManager.BATTERY_STATUS_CHARGING ? "正在充电" : "已停止充电");
+            } else {
+                return String.format("状态: %s\n电源: 未插入", chargingStatus);
+            }
+        }
+    }
+    
+    private String getPowerSourceText(int plugged) {
+        switch (plugged) {
+            case BatteryManager.BATTERY_PLUGGED_AC:
+                return "交流电源 (AC)";
+            case BatteryManager.BATTERY_PLUGGED_USB:
+                return "USB充电";
+            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
+                return "无线充电";
+            case 0:
+                return "未插入";
+            default:
+                return "未知电源";
         }
     }
     
