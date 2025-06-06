@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Microsoft YaHei', Arial, sans-serif;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f5f5f5;
@@ -36,87 +36,14 @@
             border-radius: 10px;
         }
         
-        .refresh-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .auto-refresh-toggle {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-        
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .slider {
-            background-color: #4CAF50;
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-        
-        .interval-selector {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        select, input[type="number"] {
-            padding: 8px 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            background-color: white;
-        }
-        
         button {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
         }
         
         button:hover {
@@ -130,7 +57,7 @@
         
         .phones-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-top: 30px;
         }
@@ -142,6 +69,7 @@
             padding: 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
+            min-height: 400px;
         }
         
         .phone-card.online {
@@ -194,7 +122,7 @@
         }
         
         .battery-level {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             margin-bottom: 15px;
             text-align: center;
@@ -232,7 +160,7 @@
         
         .battery-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             margin-top: 15px;
         }
@@ -295,14 +223,21 @@
             color: #004085;
         }
         
-        @media (max-width: 768px) {
+        /* 响应式设计 - 在小屏幕上垂直排列 */
+        @media (max-width: 1024px) {
             .phones-container {
                 grid-template-columns: 1fr;
             }
             
-            .refresh-controls {
-                flex-direction: column;
-                gap: 10px;
+            .phone-card {
+                min-height: auto;
+            }
+        }
+        
+        /* 确保在大屏幕上两个卡片高度一致 */
+        @media (min-width: 1025px) {
+            .phones-container {
+                align-items: stretch;
             }
         }
     </style>
@@ -316,53 +251,33 @@
             <ol>
                 <li>在两台手机上安装并运行电池服务器应用</li>
                 <li>确保手机和电脑连接到同一个WiFi网络</li>
-                <li>开启自动刷新功能，系统将自动获取两台手机的电池信息</li>
-                <li>可以手动点击"立即刷新"按钮获取最新信息</li>
+                <li>页面会自动获取两台手机的电池信息</li>
+                <li>可以点击"刷新"按钮手动更新信息</li>
             </ol>
         </div>
         
         <div class="control-panel">
-            <div class="refresh-controls">
-                <div class="auto-refresh-toggle">
-                    <span>自动刷新:</span>
-                    <label class="switch">
-                        <input type="checkbox" id="autoRefreshToggle" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                
-                <div class="interval-selector">
-                    <span>刷新间隔:</span>
-                    <select id="refreshInterval">
-                        <option value="5">5秒</option>
-                        <option value="10" selected>10秒</option>
-                        <option value="30">30秒</option>
-                        <option value="60">1分钟</option>
-                    </select>
-                </div>
-                
-                <button onclick="refreshAllPhones()">立即刷新</button>
-            </div>
+            <button onclick="refreshAllPhones()">刷新</button>
         </div>
         
         <div class="phones-container">
             <div class="phone-card" id="phone1">
                 <div class="phone-header">
                     <div class="phone-name">LG Wing</div>
-                    <div class="connection-status status-offline" id="status1">离线</div>
+                    <div class="connection-status status-offline" id="status1">连接中</div>
                 </div>
                 <div id="battery1">
-                    <div class="loading">等待连接...</div>
+                    <div class="loading">正在获取电池信息...</div>
                 </div>
             </div>
             
             <div class="phone-card" id="phone2">
                 <div class="phone-header">
                     <div class="phone-name">小米12 Pro</div>
-                    <div class="connection-status status-offline" id="status2">离线</div>
+                    <div class="connection-status status-offline" id="status2">连接中</div>
                 </div>
                 <div id="battery2">
-                    <div class="loading">等待连接...</div>
+                    <div class="loading">正在获取电池信息...</div>
                 </div>
             </div>
         </div>
@@ -385,53 +300,10 @@
             }
         ];
         
-        let autoRefreshInterval = null;
-        let isAutoRefreshing = false;
-        
-        // 初始化
+        // 页面加载完成后自动获取电池信息
         document.addEventListener('DOMContentLoaded', function() {
-            setupEventListeners();
-            startAutoRefresh();
-            refreshAllPhones(); // 立即获取一次数据
+            refreshAllPhones();
         });
-        
-        function setupEventListeners() {
-            const autoRefreshToggle = document.getElementById('autoRefreshToggle');
-            const refreshInterval = document.getElementById('refreshInterval');
-            
-            autoRefreshToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    startAutoRefresh();
-                } else {
-                    stopAutoRefresh();
-                }
-            });
-            
-            refreshInterval.addEventListener('change', function() {
-                if (isAutoRefreshing) {
-                    stopAutoRefresh();
-                    startAutoRefresh();
-                }
-            });
-        }
-        
-        function startAutoRefresh() {
-            if (autoRefreshInterval) {
-                clearInterval(autoRefreshInterval);
-            }
-            
-            const interval = parseInt(document.getElementById('refreshInterval').value) * 1000;
-            autoRefreshInterval = setInterval(refreshAllPhones, interval);
-            isAutoRefreshing = true;
-        }
-        
-        function stopAutoRefresh() {
-            if (autoRefreshInterval) {
-                clearInterval(autoRefreshInterval);
-                autoRefreshInterval = null;
-            }
-            isAutoRefreshing = false;
-        }
         
         async function refreshAllPhones() {
             const promises = phones.map(phone => getBatteryInfo(phone));
@@ -446,6 +318,8 @@
             try {
                 // 显示加载状态
                 batteryDiv.innerHTML = '<div class="loading">正在获取电池信息...</div>';
+                statusDiv.textContent = '连接中';
+                statusDiv.className = 'connection-status status-offline';
                 
                 const response = await fetch(`http://${phone.ip}:${phone.port}/battery`, {
                     method: 'GET',
@@ -557,11 +431,6 @@
                 statusDiv.className = 'connection-status status-offline';
             }
         }
-        
-        // 页面关闭时清理定时器
-        window.addEventListener('beforeunload', function() {
-            stopAutoRefresh();
-        });
     </script>
 </body>
 </html>
