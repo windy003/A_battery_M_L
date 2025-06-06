@@ -205,12 +205,6 @@
         
         <div id="result"></div>
         
-        <div class="auto-refresh">
-            <label>
-                <input type="checkbox" id="autoRefreshCheck" onchange="toggleAutoRefresh()">
-                自动刷新 (每5秒)
-            </label>
-        </div>
     </div>
 
     <script>
@@ -295,36 +289,6 @@
             `;
             
             resultDiv.innerHTML = html;
-        }
-        
-        function toggleAutoRefresh() {
-            const checkbox = document.getElementById('autoRefreshCheck');
-            const button = document.getElementById('autoRefreshBtn');
-            
-            if (checkbox.checked && !isAutoRefreshing) {
-                // 开启自动刷新
-                isAutoRefreshing = true;
-                button.textContent = '关闭自动刷新';
-                button.style.backgroundColor = '#dc3545';
-                
-                // 立即获取一次
-                getBatteryInfo();
-                
-                // 设置定时器
-                autoRefreshInterval = setInterval(getBatteryInfo, 5000);
-                
-            } else {
-                // 关闭自动刷新
-                isAutoRefreshing = false;
-                checkbox.checked = false;
-                button.textContent = '开启自动刷新';
-                button.style.backgroundColor = '#4CAF50';
-                
-                if (autoRefreshInterval) {
-                    clearInterval(autoRefreshInterval);
-                    autoRefreshInterval = null;
-                }
-            }
         }
         
         // 页面加载时的初始化
