@@ -1,6 +1,6 @@
 <lint-module
     format="1"
-    dir="C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app"
+    dir="D:\files\web\A_battery_M_L\battery_monitor\app"
     name=":app"
     type="APP"
     maven="Calculator:app:"

@@ -171,6 +171,23 @@
                     }
                 },
                 {
+                    "source": "D:\\files\\web\\A_battery_M_L\\battery_monitor\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endColumns": "40",
+                        "endOffsets": "93"
+                    },
+                    "to": {
+                        "startLines": "1858",
+                        "startColumns": "4",
+                        "startOffsets": "124422",
+                        "endColumns": "40",
+                        "endOffsets": "124458"
+                    }
+                },
+                {
                     "source": "C:\\Users\\windy\\.gradle\\caches\\8.9\\transforms\\15bd6986d54a76e9ba53794cb9dd1b32\\transformed\\jetified-startup-runtime-1.1.1\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2",
@@ -240,23 +257,6 @@
                         "endLines": "9073,9079,9089,11621,11625",
                         "endColumns": "24,24,24,24,24",
                         "endOffsets": "626111,626289,626573,736865,736992"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\windy\\Desktop\\A_battery_M_L\\battery_monitor\\app\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "57",
-                        "endColumns": "40",
-                        "endOffsets": "93"
-                    },
-                    "to": {
-                        "startLines": "1858",
-                        "startColumns": "4",
-                        "startOffsets": "124422",
-                        "endColumns": "40",
-                        "endOffsets": "124458"
                     }
                 },
                 {

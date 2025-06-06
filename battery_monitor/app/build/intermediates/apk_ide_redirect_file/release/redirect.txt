@@ -1,2 +1,2 @@
 #- File Locator -
-listingFile=../../../../release/output-metadata.json
+listingFile=C:/Users/windy/Desktop/release/output-metadata.json

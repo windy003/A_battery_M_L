@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.net.NetworkInterface;
 import java.net.InetAddress;
 import java.util.Enumeration;
+import android.os.Build;
 
 public class MainActivity extends AppCompatActivity {
     
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView batteryInfoText;
     private TextView ipAddressText;
     private BatteryBroadcastReceiver batteryReceiver;
-    private BatteryHttpServer httpServer;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         registerBatteryReceiver();
         showIpAddress();
-        startHttpServer();
+        startBackgroundService();
         updateBatteryInfo();
     }
     
@@ -91,19 +91,16 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
     
-    private void startHttpServer() {
-        try {
-            httpServer = new BatteryHttpServer(this, PORT);
-            httpServer.start();
-            
-            statusText.setText("HTTP服务器已启动 - 端口: " + PORT);
-            Toast.makeText(this, "服务器启动成功！", Toast.LENGTH_SHORT).show();
-            
-        } catch (Exception e) {
-                statusText.setText("服务器启动失败: " + e.getMessage());
-            Toast.makeText(this, "服务器启动失败", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
+    private void startBackgroundService() {
+        Intent serviceIntent = new Intent(this, BatteryService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent);
+        } else {
+            startService(serviceIntent);
         }
+        BatteryTileService.setServiceRunning(true);
+        statusText.setText("后台服务已启动 - 端口: " + PORT);
+        Toast.makeText(this, "后台服务启动成功！", Toast.LENGTH_SHORT).show();
     }
     
     public void updateBatteryInfo() {
@@ -164,10 +161,6 @@ public class MainActivity extends AppCompatActivity {
         
         if (batteryReceiver != null) {
             unregisterReceiver(batteryReceiver);
-        }
-        
-        if (httpServer != null) {
-            httpServer.stop();
         }
     }
 }

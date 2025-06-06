@@ -2,87 +2,126 @@
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 3    package="com.example.battery_server"
 4    android:versionCode="1"
-5    android:versionName="1.0" >
+5    android:versionName="2025/6/6-01" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml
+8-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="33" />
-9-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml
+9-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:5:5-67
-11-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:5:22-64
+11-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:5:5-67
+11-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:5:22-64
 12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-12-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:6:5-79
-12-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:6:22-76
-13
-14    <permission
-14-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
-15        android:name="com.example.battery_server.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-15-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
-16        android:protectionLevel="signature" />
-16-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
-17
-18    <uses-permission android:name="com.example.battery_server.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-18-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
-18-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+12-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:6:5-79
+12-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:6:22-76
+13    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+13-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:7:5-77
+13-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:7:22-74
+14    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+14-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:8:5-77
+14-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:8:22-74
+15
+16    <permission
+16-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+17        android:name="com.example.battery_server.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+17-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+18        android:protectionLevel="signature" />
+18-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
 19
-20    <application
-20-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:8:5-23:19
-21        android:allowBackup="true"
-21-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:9:9-35
-22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-22-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
-23        android:debuggable="true"
-24        android:icon="@drawable/logo"
-24-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:10:9-38
-25        android:label="电池服务器"
-25-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:11:9-30
-26        android:testOnly="true"
-27        android:theme="@style/Theme.AppCompat"
-27-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:12:9-47
-28        android:usesCleartextTraffic="true" >
-28-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:13:9-44
-29        <activity
-29-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:15:9-22:20
-30            android:name="com.example.battery_server.MainActivity"
-30-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:16:13-41
-31            android:exported="true" >
-31-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:17:13-36
-32            <intent-filter>
-32-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:18:13-21:29
-33                <action android:name="android.intent.action.MAIN" />
-33-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:19:17-69
-33-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:19:25-66
-34
-35                <category android:name="android.intent.category.LAUNCHER" />
-35-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:20:17-77
-35-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:20:27-74
-36            </intent-filter>
-37        </activity>
-38
-39        <provider
-39-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
-40            android:name="androidx.startup.InitializationProvider"
-40-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
-41            android:authorities="com.example.battery_server.androidx-startup"
-41-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
-42            android:exported="false" >
-42-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
-43            <meta-data
-43-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
-44                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-44-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
-45                android:value="androidx.startup" />
-45-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
-46            <meta-data
-46-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\windy\.gradle\caches\8.9\transforms\e174804565ac69a5121685f23319ea7b\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
-47                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-47-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\windy\.gradle\caches\8.9\transforms\e174804565ac69a5121685f23319ea7b\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
-48                android:value="androidx.startup" />
-48-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\windy\.gradle\caches\8.9\transforms\e174804565ac69a5121685f23319ea7b\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
-49        </provider>
-50    </application>
-51
-52</manifest>
+20    <uses-permission android:name="com.example.battery_server.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+20-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+20-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+21
+22    <application
+22-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:10:5-44:19
+23        android:allowBackup="true"
+23-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:11:9-35
+24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+24-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+25        android:debuggable="true"
+26        android:icon="@drawable/logo"
+26-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:12:9-38
+27        android:label="电池服务器"
+27-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:13:9-30
+28        android:testOnly="true"
+29        android:theme="@style/Theme.AppCompat"
+29-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:14:9-47
+30        android:usesCleartextTraffic="true" >
+30-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:15:9-44
+31        <activity
+31-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:17:9-24:20
+32            android:name="com.example.battery_server.MainActivity"
+32-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:18:13-41
+33            android:exported="true" >
+33-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:19:13-36
+34            <intent-filter>
+34-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:20:13-23:29
+35                <action android:name="android.intent.action.MAIN" />
+35-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:21:17-69
+35-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:21:25-66
+36
+37                <category android:name="android.intent.category.LAUNCHER" />
+37-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:22:17-77
+37-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:22:27-74
+38            </intent-filter>
+39        </activity>
+40
+41        <!-- 前台服务 -->
+42        <service
+42-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:27:9-31:56
+43            android:name="com.example.battery_server.BatteryService"
+43-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:28:13-43
+44            android:enabled="true"
+44-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:29:13-35
+45            android:exported="false"
+45-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:30:13-37
+46            android:foregroundServiceType="dataSync" />
+46-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:31:13-53
+47
+48        <!-- Quick Settings Tile -->
+49        <service
+49-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:34:9-43:19
+50            android:name="com.example.battery_server.BatteryTileService"
+50-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:35:13-47
+51            android:exported="true"
+51-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:36:13-36
+52            android:icon="@drawable/logo"
+52-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:37:13-42
+53            android:label="电池服务器"
+53-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:38:13-34
+54            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE" >
+54-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:39:13-77
+55            <intent-filter>
+55-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:40:13-42:29
+56                <action android:name="android.service.quicksettings.action.QS_TILE" />
+56-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:41:17-87
+56-->D:\files\web\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:41:25-84
+57            </intent-filter>
+58        </service>
+59
+60        <provider
+60-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+61            android:name="androidx.startup.InitializationProvider"
+61-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+62            android:authorities="com.example.battery_server.androidx-startup"
+62-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+63            android:exported="false" >
+63-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+64            <meta-data
+64-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+65                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+65-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+66                android:value="androidx.startup" />
+66-->[androidx.emoji2:emoji2:1.2.0] C:\Users\windy\.gradle\caches\8.9\transforms\6c6669680dd27cd27d64c8d1bb015c23\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+67            <meta-data
+67-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\windy\.gradle\caches\8.9\transforms\e174804565ac69a5121685f23319ea7b\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+68                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+68-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\windy\.gradle\caches\8.9\transforms\e174804565ac69a5121685f23319ea7b\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+69                android:value="androidx.startup" />
+69-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\windy\.gradle\caches\8.9\transforms\e174804565ac69a5121685f23319ea7b\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+70        </provider>
+71    </application>
+72
+73</manifest>

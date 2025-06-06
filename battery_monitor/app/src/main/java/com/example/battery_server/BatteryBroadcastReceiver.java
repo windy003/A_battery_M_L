@@ -14,7 +14,7 @@ public class BatteryBroadcastReceiver extends BroadcastReceiver {
     
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent != null && Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
+        if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
             if (mainActivity != null) {
                 mainActivity.onBatteryChanged();
             }
