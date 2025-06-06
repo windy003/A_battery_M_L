@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" sizes="180x180" href="180x180.png">
 
-    <title>手机电池信息监控</title>
+    <title>双手机电池信息监控</title>
     <style>
         body {
             font-family: 'Microsoft YaHei', Arial, sans-serif;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f5f5f5;
@@ -28,45 +28,95 @@
             margin-bottom: 30px;
         }
         
-        .input-group {
-            margin-bottom: 20px;
+        .control-panel {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
         }
         
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
+        .refresh-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         
+        .auto-refresh-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
         
-        select {
-            width: 100%;
-            padding: 10px;
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #4CAF50;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .interval-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        select, input[type="number"] {
+            padding: 8px 12px;
             border: 2px solid #ddd;
             border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
+            font-size: 14px;
             background-color: white;
-            cursor: pointer;
-        }
-        
-        select:focus {
-            border-color: #4CAF50;
-            outline: none;
         }
         
         button {
             background-color: #4CAF50;
             color: white;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            font-size: 14px;
         }
         
         button:hover {
@@ -78,78 +128,166 @@
             cursor: not-allowed;
         }
         
+        .phones-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .phone-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .phone-card.online {
+            border-color: #4CAF50;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+        }
+        
+        .phone-card.offline {
+            border-color: #f44336;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.2);
+        }
+        
+        .phone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .phone-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .connection-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-online {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-offline {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
         .battery-info {
             background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
+            border-radius: 10px;
             padding: 20px;
-            margin-top: 20px;
         }
         
         .battery-level {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .level-high {
             color: #28a745;
-            margin-bottom: 10px;
+        }
+        
+        .level-medium {
+            color: #ffc107;
+        }
+        
+        .level-low {
+            color: #dc3545;
         }
         
         .charging-status {
             font-size: 18px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
         }
         
         .charging {
-            color: #007bff;
+            background-color: #cce5ff;
+            color: #004085;
         }
         
         .not-charging {
-            color: #6c757d;
+            background-color: #e2e3e5;
+            color: #383d41;
         }
         
         .battery-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
             margin-top: 15px;
         }
         
         .detail-item {
             background: white;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px;
+            border-radius: 8px;
             border-left: 4px solid #4CAF50;
+            text-align: center;
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
         }
         
         .error {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 15px;
-            margin-top: 20px;
-        }
-        
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            border-radius: 5px;
-            padding: 15px;
-            margin-top: 20px;
+            text-align: center;
         }
         
         .loading {
             text-align: center;
             color: #6c757d;
             font-style: italic;
+            padding: 20px;
+        }
+        
+        .last-update {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
         }
         
         .instructions {
             background-color: #e7f3ff;
             border: 1px solid #b8daff;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
         }
         
         .instructions h3 {
@@ -157,64 +295,164 @@
             color: #004085;
         }
         
-        .auto-refresh {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 5px;
+        @media (max-width: 768px) {
+            .phones-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .refresh-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📱 手机电池信息监控</h1>
+        <h1>📱 双手机电池信息监控</h1>
         
         <div class="instructions">
             <h3>使用说明：</h3>
             <ol>
-                <li>在手机上安装并运行电池服务器应用</li>
+                <li>在两台手机上安装并运行电池服务器应用</li>
                 <li>确保手机和电脑连接到同一个WiFi网络</li>
-                <li>在下方选择要监控的手机设备</li>
-                <li>点击"获取电池信息"按钮</li>
+                <li>开启自动刷新功能，系统将自动获取两台手机的电池信息</li>
+                <li>可以手动点击"立即刷新"按钮获取最新信息</li>
             </ol>
         </div>
         
-        <div class="input-group">
-            <label for="phoneIp">选择手机设备：</label>
-            <select name="" id="phoneIp">
-                <option value="10.254.1.70">lg wing (10.254.1.70)</option>
-                <option value="10.254.1.242">小米12pro (10.254.1.242)</option>
-            </select>
+        <div class="control-panel">
+            <div class="refresh-controls">
+                <div class="auto-refresh-toggle">
+                    <span>自动刷新:</span>
+                    <label class="switch">
+                        <input type="checkbox" id="autoRefreshToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="interval-selector">
+                    <span>刷新间隔:</span>
+                    <select id="refreshInterval">
+                        <option value="5">5秒</option>
+                        <option value="10" selected>10秒</option>
+                        <option value="30">30秒</option>
+                        <option value="60">1分钟</option>
+                    </select>
+                </div>
+                
+                <button onclick="refreshAllPhones()">立即刷新</button>
+            </div>
         </div>
         
-        <button onclick="getBatteryInfo()">获取电池信息</button>
-        
-        
-        <div id="result"></div>
-        
+        <div class="phones-container">
+            <div class="phone-card" id="phone1">
+                <div class="phone-header">
+                    <div class="phone-name">LG Wing</div>
+                    <div class="connection-status status-offline" id="status1">离线</div>
+                </div>
+                <div id="battery1">
+                    <div class="loading">等待连接...</div>
+                </div>
+            </div>
+            
+            <div class="phone-card" id="phone2">
+                <div class="phone-header">
+                    <div class="phone-name">小米12 Pro</div>
+                    <div class="connection-status status-offline" id="status2">离线</div>
+                </div>
+                <div id="battery2">
+                    <div class="loading">等待连接...</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
+        // 手机配置
+        const phones = [
+            {
+                id: 1,
+                name: 'LG Wing',
+                ip: '10.254.1.70',
+                port: 8080
+            },
+            {
+                id: 2,
+                name: '小米12 Pro',
+                ip: '10.254.1.242',
+                port: 8080
+            }
+        ];
         
-        async function getBatteryInfo() {
-            const phoneIp = document.getElementById('phoneIp').value;
-            const resultDiv = document.getElementById('result');
+        let autoRefreshInterval = null;
+        let isAutoRefreshing = false;
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            startAutoRefresh();
+            refreshAllPhones(); // 立即获取一次数据
+        });
+        
+        function setupEventListeners() {
+            const autoRefreshToggle = document.getElementById('autoRefreshToggle');
+            const refreshInterval = document.getElementById('refreshInterval');
             
-            if (!phoneIp) {
-                resultDiv.innerHTML = '<div class="error">请选择手机设备</div>';
-                return;
+            autoRefreshToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    startAutoRefresh();
+                } else {
+                    stopAutoRefresh();
+                }
+            });
+            
+            refreshInterval.addEventListener('change', function() {
+                if (isAutoRefreshing) {
+                    stopAutoRefresh();
+                    startAutoRefresh();
+                }
+            });
+        }
+        
+        function startAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
             }
             
-            resultDiv.innerHTML = '<div class="loading">正在获取电池信息...</div>';
+            const interval = parseInt(document.getElementById('refreshInterval').value) * 1000;
+            autoRefreshInterval = setInterval(refreshAllPhones, interval);
+            isAutoRefreshing = true;
+        }
+        
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+            isAutoRefreshing = false;
+        }
+        
+        async function refreshAllPhones() {
+            const promises = phones.map(phone => getBatteryInfo(phone));
+            await Promise.allSettled(promises);
+        }
+        
+        async function getBatteryInfo(phone) {
+            const batteryDiv = document.getElementById(`battery${phone.id}`);
+            const statusDiv = document.getElementById(`status${phone.id}`);
+            const phoneCard = document.getElementById(`phone${phone.id}`);
             
             try {
-                const response = await fetch(`http://${phoneIp}:8080/battery`, {
+                // 显示加载状态
+                batteryDiv.innerHTML = '<div class="loading">正在获取电池信息...</div>';
+                
+                const response = await fetch(`http://${phone.ip}:${phone.port}/battery`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    timeout: 10000
+                    signal: AbortSignal.timeout(8000) // 8秒超时
                 });
                 
                 if (!response.ok) {
@@ -223,92 +461,107 @@
                 
                 const data = await response.json();
                 
-                // 检查数据是否包含必要的字段
                 if (data && typeof data.level !== 'undefined') {
-                    displayBatteryInfo(data);
+                    displayBatteryInfo(phone.id, data);
+                    updateConnectionStatus(phone.id, true);
+                    phoneCard.className = 'phone-card online';
                 } else {
-                    resultDiv.innerHTML = `<div class="error">获取的数据格式不正确</div>`;
+                    throw new Error('数据格式不正确');
                 }
                 
             } catch (error) {
-                let errorMessage = '连接失败';
-                if (error.name === 'TypeError') {
-                    errorMessage = '无法连接到手机，请检查：<br>1. 手机应用是否正在运行<br>2. 选择的设备是否正确<br>3. 手机和电脑是否在同一网络';
-                } else {
-                    errorMessage = `错误: ${error.message}`;
-                }
-                resultDiv.innerHTML = `<div class="error">${errorMessage}</div>`;
+                displayError(phone.id, error.message);
+                updateConnectionStatus(phone.id, false);
+                phoneCard.className = 'phone-card offline';
             }
         }
         
-        function displayBatteryInfo(data) {
-            const resultDiv = document.getElementById('result');
+        function displayBatteryInfo(phoneId, data) {
+            const batteryDiv = document.getElementById(`battery${phoneId}`);
             const chargingClass = data.isCharging ? 'charging' : 'not-charging';
             const chargingIcon = data.isCharging ? '🔌' : '🔋';
             
+            // 根据电量设置颜色
+            let levelClass = 'level-high';
+            if (data.level <= 20) {
+                levelClass = 'level-low';
+            } else if (data.level <= 50) {
+                levelClass = 'level-medium';
+            }
+            
             const html = `
                 <div class="battery-info">
-                    <div class="battery-level">
-                        ${chargingIcon} 电量: ${data.level}%
+                    <div class="battery-level ${levelClass}">
+                        ${chargingIcon} ${data.level}%
                     </div>
                     <div class="charging-status ${chargingClass}">
-                        状态: ${data.status}
+                        ${data.status}
                     </div>
                     <div class="battery-details">
                         <div class="detail-item">
-                            <strong>充电状态:</strong><br>
-                            ${data.isCharging ? '正在充电' : '未充电'}
+                            <div class="detail-label">充电状态</div>
+                            <div class="detail-value">${data.isCharging ? '充电中' : '未充电'}</div>
                         </div>
                         <div class="detail-item">
-                            <strong>电源连接:</strong><br>
-                            ${data.isPowerConnected ? '已连接' : '未连接'}
+                            <div class="detail-label">电源连接</div>
+                            <div class="detail-value">${data.isPowerConnected ? '已连接' : '未连接'}</div>
                         </div>
                         <div class="detail-item">
-                            <strong>电源类型:</strong><br>
-                            ${data.powerSource}
+                            <div class="detail-label">电源类型</div>
+                            <div class="detail-value">${data.powerSource}</div>
                         </div>
                         <div class="detail-item">
-                            <strong>充电详情:</strong><br>
-                            ${data.chargingDetail}
+                            <div class="detail-label">温度</div>
+                            <div class="detail-value">${data.temperature}°C</div>
                         </div>
                         <div class="detail-item">
-                            <strong>电池温度:</strong><br>
-                            ${data.temperature}°C
+                            <div class="detail-label">电压</div>
+                            <div class="detail-value">${data.voltage}mV</div>
                         </div>
                         <div class="detail-item">
-                            <strong>电压:</strong><br>
-                            ${data.voltage} mV
+                            <div class="detail-label">容量比例</div>
+                            <div class="detail-value">${data.scale}%</div>
                         </div>
-                        <div class="detail-item">
-                            <strong>电池容量比例:</strong><br>
-                            ${data.scale}%
-                        </div>
-                        <div class="detail-item">
-                            <strong>更新时间:</strong><br>
-                            ${new Date().toLocaleString()}
-                        </div>
+                    </div>
+                    <div class="last-update">
+                        最后更新: ${new Date().toLocaleString()}
                     </div>
                 </div>
             `;
             
-            resultDiv.innerHTML = html;
+            batteryDiv.innerHTML = html;
         }
         
-        // 页面加载时的初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            // 尝试从localStorage获取上次使用的IP
-            const savedIp = localStorage.getItem('phoneIp');
-            if (savedIp) {
-                document.getElementById('phoneIp').value = savedIp;
+        function displayError(phoneId, errorMessage) {
+            const batteryDiv = document.getElementById(`battery${phoneId}`);
+            let displayMessage = '连接失败';
+            
+            if (errorMessage.includes('fetch')) {
+                displayMessage = '无法连接到设备<br>请检查设备是否在线';
+            } else if (errorMessage.includes('timeout')) {
+                displayMessage = '连接超时<br>请检查网络连接';
+            } else {
+                displayMessage = `错误: ${errorMessage}`;
             }
             
-            // 保存IP地址到localStorage
-            document.getElementById('phoneIp').addEventListener('change', function() {
-                localStorage.setItem('phoneIp', this.value);
-            });
-        });
+            batteryDiv.innerHTML = `<div class="error">${displayMessage}</div>`;
+        }
         
-       
+        function updateConnectionStatus(phoneId, isOnline) {
+            const statusDiv = document.getElementById(`status${phoneId}`);
+            if (isOnline) {
+                statusDiv.textContent = '在线';
+                statusDiv.className = 'connection-status status-online';
+            } else {
+                statusDiv.textContent = '离线';
+                statusDiv.className = 'connection-status status-offline';
+            }
+        }
+        
+        // 页面关闭时清理定时器
+        window.addEventListener('beforeunload', function() {
+            stopAutoRefresh();
+        });
     </script>
 </body>
 </html>
