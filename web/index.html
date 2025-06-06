@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机电池信息监控</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .battery-info {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .battery-level {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .charging-status {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .charging {
+            color: #007bff;
+        }
+        
+        .not-charging {
+            color: #6c757d;
+        }
+        
+        .battery-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .detail-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        .instructions {
+            background-color: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #004085;
+        }
+        
+        .auto-refresh {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 手机电池信息监控</h1>
+        
+        <div class="instructions">
+            <h3>使用说明：</h3>
+            <ol>
+                <li>在手机上安装并运行电池服务器应用</li>
+                <li>确保手机和电脑连接到同一个WiFi网络</li>
+                <li>在下方输入手机的IP地址（可在手机WiFi设置中查看）</li>
+                <li>点击"获取电池信息"按钮</li>
+            </ol>
+        </div>
+        
+        <div class="input-group">
+            <label for="phoneIp">手机IP地址：</label>
+            <input type="text" id="phoneIp" placeholder="例如: 192.168.1.100" value="192.168.1.100">
+        </div>
+        
+        <button onclick="getBatteryInfo()">获取电池信息</button>
+        <button onclick="toggleAutoRefresh()" id="autoRefreshBtn">开启自动刷新</button>
+        
+        <div id="result"></div>
+        
+        <div class="auto-refresh">
+            <label>
+                <input type="checkbox" id="autoRefreshCheck" onchange="toggleAutoRefresh()">
+                自动刷新 (每5秒)
+            </label>
+        </div>
+    </div>
+
+    <script>
+        let autoRefreshInterval = null;
+        let isAutoRefreshing = false;
+        
+        async function getBatteryInfo() {
+            const phoneIp = document.getElementById('phoneIp').value.trim();
+            const resultDiv = document.getElementById('result');
+            
+            if (!phoneIp) {
+                resultDiv.innerHTML = '<div class="error">请输入手机IP地址</div>';
+                return;
+            }
+            
+            // 验证IP地址格式
+            const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (!ipRegex.test(phoneIp)) {
+                resultDiv.innerHTML = '<div class="error">请输入有效的IP地址格式</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<div class="loading">正在获取电池信息...</div>';
+            
+            try {
+                const response = await fetch(`http://${phoneIp}:8080/battery`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    timeout: 10000
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBatteryInfo(data);
+                } else {
+                    resultDiv.innerHTML = `<div class="error">获取失败: ${data.error}</div>`;
+                }
+                
+            } catch (error) {
+                let errorMessage = '连接失败';
+                if (error.name === 'TypeError') {
+                    errorMessage = '无法连接到手机，请检查：<br>1. 手机应用是否正在运行<br>2. IP地址是否正确<br>3. 手机和电脑是否在同一网络';
+                } else {
+                    errorMessage = `错误: ${error.message}`;
+                }
+                resultDiv.innerHTML = `<div class="error">${errorMessage}</div>`;
+            }
+        }
+        
+        function displayBatteryInfo(data) {
+            const resultDiv = document.getElementById('result');
+            const chargingClass = data.is_charging ? 'charging' : 'not-charging';
+            const chargingIcon = data.is_charging ? '🔌' : '🔋';
+            
+            const html = `
+                <div class="battery-info">
+                    <div class="battery-level">
+                        ${chargingIcon} 电量: ${data.battery_level}%
+                    </div>
+                    <div class="charging-status ${chargingClass}">
+                        状态: ${data.charging_status}
+                    </div>
+                    <div class="battery-details">
+                        <div class="detail-item">
+                            <strong>充电状态:</strong><br>
+                            ${data.is_charging ? '正在充电' : '未充电'}
+                        </div>
+                        <div class="detail-item">
+                            <strong>电池温度:</strong><br>
+                            ${data.temperature}°C
+                        </div>
+                        <div class="detail-item">
+                            <strong>电压:</strong><br>
+                            ${data.voltage} mV
+                        </div>
+                        <div class="detail-item">
+                            <strong>更新时间:</strong><br>
+                            ${new Date(data.timestamp).toLocaleString()}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            resultDiv.innerHTML = html;
+        }
+        
+        function toggleAutoRefresh() {
+            const checkbox = document.getElementById('autoRefreshCheck');
+            const button = document.getElementById('autoRefreshBtn');
+            
+            if (checkbox.checked && !isAutoRefreshing) {
+                // 开启自动刷新
+                isAutoRefreshing = true;
+                button.textContent = '关闭自动刷新';
+                button.style.backgroundColor = '#dc3545';
+                
+                // 立即获取一次
+                getBatteryInfo();
+                
+                // 设置定时器
+                autoRefreshInterval = setInterval(getBatteryInfo, 5000);
+                
+            } else {
+                // 关闭自动刷新
+                isAutoRefreshing = false;
+                checkbox.checked = false;
+                button.textContent = '开启自动刷新';
+                button.style.backgroundColor = '#4CAF50';
+                
+                if (autoRefreshInterval) {
+                    clearInterval(autoRefreshInterval);
+                    autoRefreshInterval = null;
+                }
+            }
+        }
+        
+        // 页面加载时的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 尝试从localStorage获取上次使用的IP
+            const savedIp = localStorage.getItem('phoneIp');
+            if (savedIp) {
+                document.getElementById('phoneIp').value = savedIp;
+            }
+            
+            // 保存IP地址到localStorage
+            document.getElementById('phoneIp').addEventListener('change', function() {
+                localStorage.setItem('phoneIp', this.value);
+            });
+        });
+        
+        // 添加键盘快捷键支持
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && event.target.id === 'phoneIp') {
+                getBatteryInfo();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="电池信息服务器"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:background="#E3F2FD"
+        android:padding="12dp"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="服务器状态: 未启动"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:background="#F5F5F5"
+        android:padding="12dp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/ipAddressText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="IP地址获取中..."
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        android:background="#E8F4F8"
+        android:padding="12dp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/batteryInfoText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="电池信息加载中..."
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:background="#E8F5E8"
+        android:padding="15dp"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="使用说明:\n1. 确保手机和电脑在同一网络\n2. 在网页中输入上方显示的IP地址\n3. 点击获取电池信息"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        android:background="#FFF3E0"
+        android:padding="12dp" />
+
+</LinearLayout>
