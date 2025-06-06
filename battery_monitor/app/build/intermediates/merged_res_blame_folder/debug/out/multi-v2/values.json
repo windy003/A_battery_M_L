@@ -224,23 +224,6 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\windy\\Desktop\\tmp\\battery_monitor\\app\\src\\main\\res\\values\\strings.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "57",
-                        "endColumns": "40",
-                        "endOffsets": "93"
-                    },
-                    "to": {
-                        "startLines": "1858",
-                        "startColumns": "4",
-                        "startOffsets": "124422",
-                        "endColumns": "40",
-                        "endOffsets": "124458"
-                    }
-                },
-                {
                     "source": "C:\\Users\\windy\\.gradle\\caches\\8.9\\transforms\\9273d9fd1de985d446a2c04744b806a9\\transformed\\jetified-appcompat-resources-1.6.1\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,18,24,34,50",
@@ -257,6 +240,23 @@
                         "endLines": "9073,9079,9089,11621,11625",
                         "endColumns": "24,24,24,24,24",
                         "endOffsets": "626111,626289,626573,736865,736992"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\windy\\Desktop\\A_battery_M_L\\battery_monitor\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endColumns": "40",
+                        "endOffsets": "93"
+                    },
+                    "to": {
+                        "startLines": "1858",
+                        "startColumns": "4",
+                        "startOffsets": "124422",
+                        "endColumns": "40",
+                        "endOffsets": "124458"
                     }
                 },
                 {

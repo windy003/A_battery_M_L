@@ -6,16 +6,16 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml
+8-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="33" />
-9-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml
+9-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:5:5-67
-11-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:5:22-64
+11-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:5:5-67
+11-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:5:22-64
 12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-12-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:6:5-79
-12-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:6:22-76
+12-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:6:5-79
+12-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:6:22-76
 13
 14    <permission
 14-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
@@ -29,36 +29,36 @@
 18-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
 19
 20    <application
-20-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:8:5-23:19
+20-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:8:5-23:19
 21        android:allowBackup="true"
-21-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:9:9-35
+21-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:9:9-35
 22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 22-->[androidx.core:core:1.9.0] C:\Users\windy\.gradle\caches\8.9\transforms\fc452d62a030469530b05e216b4ffb58\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
 23        android:debuggable="true"
-24        android:icon="@drawable/ic_launcher"
-24-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:10:9-45
+24        android:icon="@drawable/logo"
+24-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:10:9-38
 25        android:label="电池服务器"
-25-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:11:9-30
+25-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:11:9-30
 26        android:testOnly="true"
 27        android:theme="@style/Theme.AppCompat"
-27-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:12:9-47
+27-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:12:9-47
 28        android:usesCleartextTraffic="true" >
-28-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:13:9-44
+28-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:13:9-44
 29        <activity
-29-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:15:9-22:20
+29-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:15:9-22:20
 30            android:name="com.example.battery_server.MainActivity"
-30-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:16:13-41
+30-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:16:13-41
 31            android:exported="true" >
-31-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:17:13-36
+31-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:17:13-36
 32            <intent-filter>
-32-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:18:13-21:29
+32-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:18:13-21:29
 33                <action android:name="android.intent.action.MAIN" />
-33-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:19:17-69
-33-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:19:25-66
+33-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:19:17-69
+33-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:19:25-66
 34
 35                <category android:name="android.intent.category.LAUNCHER" />
-35-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:20:17-77
-35-->C:\Users\windy\Desktop\tmp\battery_monitor\app\src\main\AndroidManifest.xml:20:27-74
+35-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:20:17-77
+35-->C:\Users\windy\Desktop\A_battery_M_L\battery_monitor\app\src\main\AndroidManifest.xml:20:27-74
 36            </intent-filter>
 37        </activity>
 38

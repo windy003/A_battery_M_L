@@ -7,6 +7,9 @@ import android.os.BatteryManager;
 import fi.iki.elonen.NanoHTTPD;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class BatteryHttpServer extends NanoHTTPD {
     
@@ -72,7 +75,11 @@ public class BatteryHttpServer extends NanoHTTPD {
                     response.put("charging_status", getChargingStatusText(status));
                     response.put("temperature", temperature / 10.0);
                     response.put("voltage", voltage);
-                    response.put("timestamp", System.currentTimeMillis());
+                    long currentTime = System.currentTimeMillis();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    String formattedTime = sdf.format(new Date(currentTime));
+                    response.put("timestamp", currentTime);
+                    response.put("formatted_time", formattedTime);
                 } else {
                     response.put("success", false);
                     response.put("error", "无法获取电池信息");

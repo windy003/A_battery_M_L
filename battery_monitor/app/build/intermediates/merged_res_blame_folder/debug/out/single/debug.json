@@ -4,8 +4,8 @@
         "source": "C:\\Users\\windy\\.gradle\\daemon\\8.9\\com.example.battery_server.app-main-31:\\layout\\activity_main.xml"
     },
     {
-        "merged": "com.example.battery_server.app-merged_res-29:/layout_activity_main.xml.flat",
-        "source": "com.example.battery_server.app-main-31:/layout/activity_main.xml"
+        "merged": "com.example.battery_server.app-merged_res-29:/drawable_logo.png.flat",
+        "source": "com.example.battery_server.app-main-31:/drawable/logo.png"
     },
     {
         "merged": "C:\\Users\\windy\\.gradle\\daemon\\8.9\\com.example.battery_server.app-merged_res-29:\\drawable_ic_launcher.xml.flat",
