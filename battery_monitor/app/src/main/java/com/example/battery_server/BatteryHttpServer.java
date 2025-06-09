@@ -14,10 +14,12 @@ import java.util.Locale;
 public class BatteryHttpServer extends NanoHTTPD {
     
     private final Context context;
+    private BluetoothManager bluetoothManager;
     
     public BatteryHttpServer(Context context, int port) throws IOException {
         super(port);
         this.context = context;
+        this.bluetoothManager = new BluetoothManager(context);
     }
     
     @Override
@@ -93,7 +95,20 @@ public class BatteryHttpServer extends NanoHTTPD {
                         batteryInfo.put("chargingDetail", "未连接电源");
                     }
                     
-                    return newFixedLengthResponse(Response.Status.OK, "application/json", batteryInfo.toString());
+                    // 添加蓝牙信息
+                    JSONObject bluetoothInfo = new JSONObject();
+                    bluetoothInfo.put("supported", bluetoothManager.isBluetoothSupported());
+                    bluetoothInfo.put("enabled", bluetoothManager.isBluetoothEnabled());
+                    bluetoothInfo.put("status", bluetoothManager.getBluetoothStatusText());
+                    bluetoothInfo.put("name", bluetoothManager.getBluetoothName());
+                    bluetoothInfo.put("address", bluetoothManager.getBluetoothAddress());
+                    
+                    // 将蓝牙信息添加到主响应中
+                    JSONObject response = new JSONObject();
+                    response.put("battery", batteryInfo);
+                    response.put("bluetooth", bluetoothInfo);
+                    
+                    return newFixedLengthResponse(Response.Status.OK, "application/json", response.toString());
                 }
             }
             

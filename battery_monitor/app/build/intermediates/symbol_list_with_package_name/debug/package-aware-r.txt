@@ -2909,6 +2909,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable rounded_background
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
@@ -2999,6 +3000,7 @@ id batteryInfoText
 id beginOnFirstDraw
 id beginning
 id blocking
+id bluetoothInfoText
 id bottom
 id bounce
 id buttonPanel

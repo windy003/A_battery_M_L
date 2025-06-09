@@ -11,15 +11,24 @@ import java.net.NetworkInterface;
 import java.net.InetAddress;
 import java.util.Enumeration;
 import android.os.Build;
+import android.bluetooth.BluetoothAdapter;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
     
     private static final int PORT = 8080;
+    private static final int BLUETOOTH_PERMISSION_REQUEST_CODE = 1001;
     
     private TextView statusText;
     private TextView batteryInfoText;
     private TextView ipAddressText;
+    private TextView bluetoothInfoText;
     private BatteryBroadcastReceiver batteryReceiver;
+    private BluetoothStateReceiver bluetoothReceiver;
+    private BluetoothManager bluetoothManager;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,26 +36,63 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         
         initViews();
+        initBluetoothManager();
+        requestBluetoothPermissions();
         registerBatteryReceiver();
+        registerBluetoothReceiver();
         showIpAddress();
         startBackgroundService();
         updateBatteryInfo();
+        updateBluetoothInfo();
     }
     
     private void initViews() {
         statusText = findViewById(R.id.statusText);
         batteryInfoText = findViewById(R.id.batteryInfoText);
         ipAddressText = findViewById(R.id.ipAddressText);
+        bluetoothInfoText = findViewById(R.id.bluetoothInfoText);
         
         statusText.setText("正在启动服务器...");
         batteryInfoText.setText("电池信息加载中...");
         ipAddressText.setText("正在获取IP地址...");
+        bluetoothInfoText.setText("蓝牙信息加载中...");
+    }
+    
+    private void initBluetoothManager() {
+        bluetoothManager = new BluetoothManager(this);
+    }
+    
+    private void requestBluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            String[] permissions = {
+                Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.BLUETOOTH_SCAN
+            };
+            
+            boolean needRequest = false;
+            for (String permission : permissions) {
+                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                    needRequest = true;
+                    break;
+                }
+            }
+            
+            if (needRequest) {
+                ActivityCompat.requestPermissions(this, permissions, BLUETOOTH_PERMISSION_REQUEST_CODE);
+            }
+        }
     }
     
     private void registerBatteryReceiver() {
         batteryReceiver = new BatteryBroadcastReceiver(this);
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryReceiver, filter);
+    }
+    
+    private void registerBluetoothReceiver() {
+        bluetoothReceiver = new BluetoothStateReceiver(this);
+        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        registerReceiver(bluetoothReceiver, filter);
     }
     
     private void showIpAddress() {
@@ -199,8 +245,58 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     
+    public void updateBluetoothInfo() {
+        if (bluetoothManager == null) {
+            bluetoothInfoText.setText("蓝牙管理器未初始化");
+            return;
+        }
+        
+        String bluetoothStatus = bluetoothManager.getBluetoothStatusText();
+        String bluetoothName = bluetoothManager.getBluetoothName();
+        String bluetoothAddress = bluetoothManager.getBluetoothAddress();
+        
+        String info = String.format(
+            "蓝牙状态: %s\n设备名称: %s\nMAC地址: %s",
+            bluetoothStatus,
+            bluetoothName,
+            bluetoothAddress
+        );
+        
+        bluetoothInfoText.setText(info);
+    }
+    
     public void onBatteryChanged() {
         updateBatteryInfo();
+    }
+    
+    public void onBluetoothStateChanged(int state) {
+        runOnUiThread(() -> {
+            updateBluetoothInfo();
+            Toast.makeText(this, "蓝牙状态: " + bluetoothManager.getBluetoothStateText(state), 
+                Toast.LENGTH_SHORT).show();
+        });
+    }
+    
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        
+        if (requestCode == BLUETOOTH_PERMISSION_REQUEST_CODE) {
+            boolean allGranted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allGranted = false;
+                    break;
+                }
+            }
+            
+            if (allGranted) {
+                updateBluetoothInfo();
+                Toast.makeText(this, "蓝牙权限已获取", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "蓝牙权限被拒绝，部分功能可能无法使用", Toast.LENGTH_LONG).show();
+            }
+        }
     }
     
     @Override
@@ -209,6 +305,10 @@ public class MainActivity extends AppCompatActivity {
         
         if (batteryReceiver != null) {
             unregisterReceiver(batteryReceiver);
+        }
+        
+        if (bluetoothReceiver != null) {
+            unregisterReceiver(bluetoothReceiver);
         }
     }
 }
