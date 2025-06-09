@@ -281,9 +281,33 @@
                     <div class="loading">正在获取电池信息...</div>
                 </div>
             </div>
-        </div>
+            
+            <div class="phone-card" id="phone3">
+                <div class="phone-header">
+                    <div class="phone-name">小米Mix Fold 2</div>
+                    <div class="connection-status status-offline" id="status3">连接中</div>
+                </div>
+                <div id="battery3">
+                    <div class="loading">正在获取电池信息...</div>
+                </div>
+            </div>
+        
+
+
+            <div class="phone-card" id="phone4">
+                <div class="phone-header">
+                    <div class="phone-name">华为折叠屏</div>
+                    <div class="connection-status status-offline" id="status4">连接中</div>
+                </div>
+                <div id="battery4">
+                    <div class="loading">正在获取电池信息...</div>
+                </div>
+            </div>
+        
     </div>
 
+    
+    
     <script>
         // 手机配置
         const phones = [
@@ -297,6 +321,18 @@
                 id: 2,
                 name: '小米12 Pro',
                 ip: '10.254.1.242',
+                port: 8080
+            },
+            {
+                id: 3,
+                name: '小米Mix Fold 2',
+                ip: '10.254.1.245',
+                port: 8080
+            },
+            {
+                id: 4,
+                name: '华为折叠屏',
+                ip: '10.254.1.254',
                 port: 8080
             }
         ];
